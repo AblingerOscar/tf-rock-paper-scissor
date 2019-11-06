@@ -1,4 +1,4 @@
-FROM tensorflow/jupyter:latest
+FROM tensorflow/tensorflow:latest-jupyter
 MAINTAINER Oscar Ablinger (dev.ablinger@gmail.com)
 
 RUN jupyter notebook --generate-config
