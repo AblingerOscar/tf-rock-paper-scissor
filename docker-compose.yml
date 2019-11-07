@@ -5,5 +5,5 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - ./volume:/tf/volume
+      - ./jupyter:/tf/jupyter
 
