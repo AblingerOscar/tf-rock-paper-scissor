@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:latest-jupyter
+FROM tensorflow/tensorflow:latest-py3-jupyter
 MAINTAINER Oscar Ablinger (dev.ablinger@gmail.com)
 CMD ["/start.sh"]
 
