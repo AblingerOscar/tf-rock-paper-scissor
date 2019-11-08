@@ -7,9 +7,13 @@ services:
       - "5000:5000"
     volumes:
       - ./jupyter:/tf/jupyter
-  app:
+  api:
     build: tensorflow/
-    ports: 
-      - "80:5000"
     volumes:
       - ./jupyter:/tf
+  web:
+    build: dashboard/
+    depends_on: 
+      - api
+    ports:
+      - "80:80"

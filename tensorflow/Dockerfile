@@ -12,6 +12,6 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 # https://github.com/pallets/werkzeug/issues/1482
 RUN chmod -x api.py
 
-EXPOSE 5000
+EXPOSE 8080
 
 CMD ["python", "api.py"]
