@@ -6,8 +6,6 @@ window.onload = function() {
     const canvas = document.getElementById('canvas');
     const snapButton = document.getElementById('snap');
     const saveButton = document.getElementById('save');
-    const tensorflowButton = document.getElementById('tensorflow');
-    const visionApiButton = document.getElementById('vision-api');
     const labels = document.getElementById('labels');
 
     const constraints = {
@@ -22,9 +20,6 @@ window.onload = function() {
 
     snapButton.addEventListener('click', () => {
         saveButton.disabled = false;
-        visionApiButton.disabled = false;
-        tensorflowButton.disabled = false;
-
         canvas.width = mediaWidth;
         canvas.height = mediaHeight;
 
@@ -32,9 +27,7 @@ window.onload = function() {
         context.drawImage(video, 0, 0, mediaWidth, mediaHeight);
     });
 
-    saveButton.addEventListener('click', () => processButton(saveButton, '/predict'));
-    tensorflowButton.addEventListener('click', () => processButton(tensorflowButton, '/tensorflow'));
-    visionApiButton.addEventListener('click', () => processButton(visionApiButton, '/vision-api'));
+    saveButton.addEventListener('click', () => processButton(saveButton, 'http://localhost:80/predict'));
 
     // Access webcam
     async function init() {
@@ -73,13 +66,15 @@ window.onload = function() {
             }
             this.button.classList.remove('is-loading');
         };
-        xhr.send(imageData);
+        xhr.send(JSON.stringify({ "image": imageData }));
     };
 
     function processResponse(response) {
         if (response == null || response == '') {
             return;
         }
+
+        console.log("got response: ", response);
 
         labels.innerHTML = '';
         jsonLabels = JSON.parse(response).slice(0,5);

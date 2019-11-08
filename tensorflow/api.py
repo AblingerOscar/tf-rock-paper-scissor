@@ -18,7 +18,7 @@ app = Flask(__name__)
 def get_model():
     print(" * Loading Keras model...")
     global model
-    model = keras.models.load_model("d:\\git-projects\\fh\master\\akt\\tf-rock-paper-scissor\\jupyter\\akt-model.h5")
+    model = keras.models.load_model("/tf/akt-model.h5")
     model.summary()
     print(" * Model loaded!")
 
