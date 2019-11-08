@@ -67,7 +67,8 @@ window.onload = function () {
             }
             this.button.classList.remove('is-loading');
         };
-        xhr.send(JSON.stringify({ "image": imageData }));
+        let removedPaddingData = imageData.substr(imageData.indexOf(',') + 1);
+        xhr.send(JSON.stringify({ "image": removedPaddingData }));
     };
 
     function processResponse(response) {
