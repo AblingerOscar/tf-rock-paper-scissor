@@ -1,3 +1,4 @@
+*.h5
 
 # Created by https://www.gitignore.io/api/jupyternotebooks,python,vim,emacs,code,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=jupyternotebooks,python,vim,emacs,code,visualstudiocode

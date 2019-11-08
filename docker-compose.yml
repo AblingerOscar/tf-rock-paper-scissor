@@ -1,9 +1,15 @@
 version: '3'
 services:
-  web:
+  jupyter:
     build: .
     ports:
       - "8888:8888"
       - "5000:5000"
     volumes:
       - ./jupyter:/tf/jupyter
+  app:
+    build: tensorflow/
+    ports: 
+      - "80:5000"
+    volumes:
+      - ./jupyter:/tf
