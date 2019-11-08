@@ -1,0 +1,36 @@
+body {
+    height: 100vh;
+}
+
+header {
+    margin: 64px 0;
+    text-align: center;
+}
+
+hr {
+    border: 0;
+    clear: both;
+    display: block;
+    background-color: #ababab;
+    height: 1px;
+}
+
+progress {
+    margin: 8px 0;
+}
+
+.button-controller .button {
+    margin: 8px 0;
+}
+
+.is-outlined {
+    border-color: #7b7b7b;
+}
+
+.is-outlined:hover {
+    border-color: #2b2b2b;
+}
+
+.canvas {
+    margin-top: 68px;
+}
