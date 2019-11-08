@@ -1,4 +1,5 @@
-window.onload = function() {
+const serverAddress = "http://localhost:80";
+window.onload = function () {
     const mediaWidth = 512;
     const mediaHeight = 384;
 
@@ -27,7 +28,7 @@ window.onload = function() {
         context.drawImage(video, 0, 0, mediaWidth, mediaHeight);
     });
 
-    saveButton.addEventListener('click', () => processButton(saveButton, 'http://localhost:80/predict'));
+    saveButton.addEventListener('click', () => processButton(saveButton, serverAddress + '/api/predict'));
 
     // Access webcam
     async function init() {
@@ -70,22 +71,31 @@ window.onload = function() {
     };
 
     function processResponse(response) {
-        if (response == null || response == '') {
+        if (!response) {
+            console.error("No response.");
+            return;
+        }
+        response = JSON.parse(response);
+
+        if (!response.prediction) {
+            console.error("Couldn't parse response.");
             return;
         }
 
         console.log("got response: ", response);
 
         labels.innerHTML = '';
-        jsonLabels = JSON.parse(response).slice(0,5);
-        jsonLabels.forEach(l => addLabelToView(l.description, l.score));
+        const predictionKeys = Object.keys(response.prediction);
+        predictionKeys.forEach(key => {
+            addLabelToView(key, response.prediction[key]);
+        });
 
         document.getElementById('not-loaded-notice').setAttribute('hidden', '');
     };
 
     function addLabelToView(description, score) {
         let roundedScore = Math.round(score * 100);
-        let  labelHtml = `
+        let labelHtml = `
         <a class="panel-block">
             <div class="row">
                 <div class="col-9">
@@ -98,7 +108,7 @@ window.onload = function() {
                 </div>
                 <div class="col-12">
                     <progress class="progress
-                        ${roundedScore > 50 ? 'is-success' :'is-warning'}" value="${roundedScore}" max="100"></progress>
+                        ${roundedScore > 50 ? 'is-success' : 'is-warning'}" value="${roundedScore}" max="100"></progress>
                 </div>
             </div>
         </a>
