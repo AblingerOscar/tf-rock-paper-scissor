@@ -12,6 +12,8 @@ from flask import request
 from flask import jsonify
 from flask import Flask
 
+import datetime
+
 app = Flask(__name__)
 
 
@@ -24,36 +26,39 @@ def get_model():
 
 
 def preprocess_image(image, target_size):
-    if image.mode != "RGB":
-        image = image.convert("RGB")
     image = image.resize(target_size)
+    image = image.convert("L").convert("RGB")
+    threshold = 80
+    image = image.point(lambda p: p > threshold and 255)
+
+    date_string = datetime.datetime.now().strftime("%Y-%m-%dT%H+%M+%SZ")
+    image.save("debug_output/image__" + date_string + ".png")
+
     image = keras.preprocessing.image.img_to_array(image)
     image = np.expand_dims(image, axis=0)
-    image = np.array(image).astype('float32')/255
+    image = np.array(image).astype('float32') / 255
 
     return image
 
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    # CHECK
     get_model()
     message = request.get_json(force=True)
     encoded = message['image']
     decoded = base64.b64decode(encoded)
     image = Image.open(io.BytesIO(decoded))
-    processed_image = preprocess_image(image, target_size=(200, 200))
+    processed_image = preprocess_image(image, target_size=(50, 50))
 
-    # CHECK
-    # graph = tf.get_default_graph()
-    # with graph.as_default():
     prediction = model.predict(processed_image).tolist()
 
     response = {
         'prediction': {
-            'paper': prediction[0][0],
-            'rock': prediction[0][1],
-            'scissors': prediction[0][2]
+            '01_rock': prediction[0][0],
+            '02_paper': prediction[0][1],
+            '03_scissors': prediction[0][2],
+            '04_lizard': prediction[0][3],
+            '05_spock': prediction[0][4]
         }
     }
     return jsonify(response)
@@ -61,6 +66,4 @@ def predict():
 
 # If we're running in stand alone mode, run the application
 if __name__ == '__main__':
-    # CHECK
-    # get_model()
     app.run(port=8080, host="0.0.0.0")
