@@ -205,3 +205,6 @@ tags
 .history
 
 # End of https://www.gitignore.io/api/jupyternotebooks,python,vim,emacs,code,visualstudiocode
+
+jupyter/dataset/*
+tensorflow/debug_output/*
