@@ -1,5 +1,7 @@
 *.h5
 
+tensorflow/debug_output/*
+
 # Created by https://www.gitignore.io/api/jupyternotebooks,python,vim,emacs,code,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=jupyternotebooks,python,vim,emacs,code,visualstudiocode
 
@@ -205,6 +207,3 @@ tags
 .history
 
 # End of https://www.gitignore.io/api/jupyternotebooks,python,vim,emacs,code,visualstudiocode
-
-jupyter/dataset/*
-tensorflow/debug_output/*
