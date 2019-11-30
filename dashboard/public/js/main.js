@@ -153,7 +153,7 @@ window.onload = function () {
 
         //set countdown to 3
         aiSymbol.dataset.status = 'count-down'
-        aiSymbol.className = 'ai-symbol far fa-hand-stone'
+        aiSymbol.className = 'ai-symbol far fa-hand-rock'
         return waitOneSecond().then(() => {
             //set countdown to 2
             return waitOneSecond()
