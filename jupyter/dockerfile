@@ -1,5 +1,5 @@
 FROM tensorflow/tensorflow:latest-py3-jupyter
-LABEL maintainer="Oscar Ablinger (dev.ablinger@gmail.com)"
+LABEL maintainer="Oscar Ablinger (dev.ablinger@gmail.com), Florian Mysliwietz (myslflo1996@yahoo.de), Stephan Pernkopf (stephan.pernkopf@outlook.com)"
 
 RUN pip install imageio scikit-image keras Flask pandas seaborn
 
