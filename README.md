@@ -40,6 +40,9 @@ will automatically download it from the github repository
 [akshaybahadur21/Emojinator](https://github.com/akshaybahadur21/Emojinator/tree/master/Rock_Paper_Scissor_Lizard_Spock/RPS_data).
 
 Simply execute `sh get_training_data.sh` and wait for it to be done.
+Sadly, we found that downloading them parallely (using
+`curl --parallel`) results in many of them being corrupted, so
+this step takes a very long time.
 
 ### Step 2: Starting the docker containers
 
