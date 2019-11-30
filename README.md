@@ -1,4 +1,4 @@
-# TS Rock-Paper-Scissors-Lizard-Spock
+# TF Rock-Paper-Scissors-Lizard-Spock
 
 This is a project for our university course 'AKT'.
 
@@ -75,3 +75,14 @@ Similarly, you can access the website at `localhost:80`.
 If you haven't yet created a model with the jupyter notebook
 (using the downloaded images), it will not be able to predict
 the images, however.
+
+Here are the results for our model:
+
+![loss](./doc-images/loss.png)
+> Loss
+
+![accuracy](./doc-images/accuracy.png)
+> Accuracy
+
+![confusion-matrix](./doc-images/confusion-matrix.png)
+> Confusion Matrix
