@@ -24,6 +24,8 @@ spock" against the AI
     and figuring out what the network thinks the picture
     most likely contains.
 
+![An image of the more detailed view](./doc-images/details.png)
+
 ## How to start
 
 In order to use this repository, you need `docker` and
