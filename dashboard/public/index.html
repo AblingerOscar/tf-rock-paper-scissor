@@ -12,64 +12,115 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/vendor/bulma.css">
     <link rel="stylesheet" href="css/vendor/bootstrap-grid.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <div class="container">
 
-        <div class="content is-large">
+        <div class="content is-large is-fullpage">
             <header>
                 <h1 class="title is-1"><br>Image Label Detection</h1>
                 <p class="subtitle is-4">
                     A prototype for an automatic recognition for the popular game "rock-paper-scissors".
                 </p>
             </header>
+            <div class="button-container choose-content">
+                <a href="#play" class="button is-large">
+                    Play rock-paper-scissors
+                </a>
+                <a href="#details" class="button is-large">
+                    More Details
+                </a>
+            </div>
         </div>
 
-        <div class="row">
-            <div class="col-3">
-                <div class="content is-small">
-                    <span class="title is-2">Webcam</span>
+        <div id="play" class="container no-side-margins is-fullpage">
+            <div id="play" class="row content is-large">
+                <h2 class="title">
+                    Play against me
+                </h2>
+                <div class="subtitle">
+                    Here you can play against me.
+                    Below you can see more details on the predictions and such
                 </div>
-
-                <div class="video-wrap">
-
-                    <img id="image-placeholder" width="320" height="240"
-                        src="https://via.placeholder.com/320x240?text=%20"/>
-                    <video id="video" width="320" height="240"
-                        playsinline autoplay hidden></video>
-                </div>
-
-                <hr>
-
-                <div class="button-controller">
-                    <button id="snap" class="button is-outlined is-medium is-fullwidth" disabled autocomplete="off">Snap</button>
-                    <button id="save" class="button is-outlined is-medium is-fullwidth" disabled autocomplete="off">Predict</button>
-                </div>
-
             </div>
-            <div class="col-6">
-                <canvas id="canvas" class="canvas" width="512" height="384"></canvas>
-            </div>
-            <div class="col-3">
-                <div class="content is-small">
-                    <span class="title is-2">Labels</span>
+            <div class="row">
+                <div class="col-4">
+                    <canvas id="canvas2" class="canvas" width="240" height="240"></canvas>
                 </div>
-                <div id="labels" class="panel"></div>
+                <div class="col-4 flex-centered">
+                    <img
+                       src="https://www.freepngimg.com/download/street_fighter/93567-universe-dc-kahn-vs-text-injustice-mortal.png">
+                </div>
+                <div class="col-4">
+                    <div class="rpc-ai-field flex-centered">
+                        <i id="ai-symbol" class="far fa-hand-rock"></i>
+                    </div>
+                </div>
+            </div>
+            <div id="victory-text" class="row flex-horizontally-centered">
+                You're so gonna loose
+            </div>
+            <div class="row">
+                <button id="go-button" class="button is-large is-danger is-outlined is-fullwidth">Go!</button>
+            </div>
+        </div>
 
-                <article id="not-loaded-notice" class="message is-small is-warning">
-                    <div class="message-header">
-                        <p>Notice:</p>
+        <div id="details" class="container no-side-margins is-fullpage">
+            <div class="row content is-large">
+                <h2 class="title">
+                    Predictions in more detail
+                </h2>
+                <div class="subtitle">
+                    Here you can see what's going on behind the scenes of the game
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <div class="content is-small">
+                        <span class="title is-2">Webcam</span>
                     </div>
-                    <div class="message-body">
-                        Labels are currently not loaded. Snap an image from your webcam and load the labels with the "predict" button.
+
+                    <div class="video-wrap">
+
+                        <img id="image-placeholder" width="320" height="240"
+                            src="https://via.placeholder.com/320x240?text=%20"/>
+                        <video id="video" width="320" height="240"
+                            playsinline autoplay hidden></video>
                     </div>
-                </article>
+
+                    <hr>
+
+                    <div class="button-controller">
+                        <button id="snap" class="button is-outlined is-medium is-fullwidth" disabled autocomplete="off">Snap</button>
+                        <button id="save" class="button is-outlined is-medium is-fullwidth" disabled autocomplete="off">Predict</button>
+                    </div>
+
+                </div>
+                <div class="col-6">
+                    <canvas id="canvas" class="canvas" width="512" height="384"></canvas>
+                </div>
+                <div class="col-3">
+                    <div class="content is-small">
+                        <span class="title is-2">Labels</span>
+                    </div>
+                    <div id="labels" class="panel"></div>
+
+                    <article id="not-loaded-notice" class="message is-small is-warning">
+                        <div class="message-header">
+                            <p>Notice:</p>
+                        </div>
+                        <div class="message-body">
+                            Labels are currently not loaded. Snap an image from your webcam and load the labels with the "predict" button.
+                        </div>
+                    </article>
+                </div>
             </div>
         </div>
     </div>
-
     <script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>

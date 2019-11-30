@@ -5,9 +5,13 @@ window.onload = function () {
 
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
+    const canvas2 = document.getElementById('canvas2');
     const snapButton = document.getElementById('snap');
     const saveButton = document.getElementById('save');
+    const goButton = document.getElementById('go-button');
     const labels = document.getElementById('labels');
+    const aiSymbol = this.document.getElementById('ai-symbol');
+    const victoryLabel = this.document.getElementById('victory-text');
 
     const constraints = {
         audio: false,
@@ -19,14 +23,7 @@ window.onload = function () {
 
     init();
 
-    snapButton.addEventListener('click', () => {
-        saveButton.disabled = false;
-        canvas.width = mediaWidth;
-        canvas.height = mediaHeight;
-
-        let context = canvas.getContext('2d');
-        context.drawImage(video, 0, 0, mediaWidth, mediaHeight);
-    });
+    snapButton.addEventListener('click', processSnapButton);
 
     saveButton.addEventListener('click', () => processButton(saveButton, serverAddress + '/api/predict'));
 
@@ -50,25 +47,43 @@ window.onload = function () {
         }
     };
 
+    function processSnapButton() {
+        saveButton.disabled = false;
+        canvas.width = mediaWidth;
+        canvas.height = mediaHeight;
+
+        let context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, mediaWidth, mediaHeight);
+
+        // canvas2 (the game)
+        let context2 = canvas2.getContext('2d');
+        context2.drawImage(video, 0, 0, canvas2.width, canvas2.height);
+    }
+
     function processButton(button, route) {
         button.classList.add('is-loading');
-        sendPostWithImage(button, route);
+        return sendPostWithImage(button, route);
     };
 
     function sendPostWithImage(button, route) {
-        let imageData = canvas.toDataURL('image/jpg');
+        return new Promise((resolve, reject) => {
+            let imageData = canvas.toDataURL('image/jpg');
 
-        let xhr = new XMLHttpRequest();
-        xhr.button = button;
-        xhr.open('POST', route);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                processResponse(xhr.responseText);
-            }
-            this.button.classList.remove('is-loading');
-        };
-        let removedPaddingData = imageData.substr(imageData.indexOf(',') + 1);
-        xhr.send(JSON.stringify({ "image": removedPaddingData }));
+            let xhr = new XMLHttpRequest();
+            xhr.button = button;
+            xhr.open('POST', route);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let prediction = processResponse(xhr.responseText);
+                    this.button.classList.remove('is-loading');
+                    resolve(prediction);
+                } else {
+                    this.button.classList.remove('is-loading');
+                }
+            };
+            let removedPaddingData = imageData.substr(imageData.indexOf(',') + 1);
+            xhr.send(JSON.stringify({ "image": removedPaddingData }));
+        })
     };
 
     function processResponse(response) {
@@ -92,6 +107,7 @@ window.onload = function () {
         });
 
         document.getElementById('not-loaded-notice').setAttribute('hidden', '');
+        return response.prediction
     };
 
     function addLabelToView(description, score) {
@@ -117,4 +133,49 @@ window.onload = function () {
 
         labels.innerHTML += labelHtml;
     };
+
+
+
+    /* === The game === */
+    goButton.addEventListener('click', () => {
+        processSnapButton();
+        processButton(goButton, serverAddress + '/api/predict').then((predictionScores) => {            
+            const predictionKeys = Object.keys(predictionScores);
+            let max = {key:'', score:0}
+
+            predictionKeys.forEach(key => {
+                if (predictionScores[key] >= max.score) {
+                    max = {
+                        key, score: predictionScores[key]
+                    }
+                }
+            });
+
+            let prediction = max.key
+            let randomNr = Math.floor((Math.random() * 2)) == 0;
+            let aiChoice = 'rock'
+
+            switch (prediction) {
+                case 'rock':
+                    aiChoice = randomNr ? 'paper' : 'spock'
+                    break;
+                case 'paper':
+                    aiChoice = randomNr ? 'scissors' : 'lizard'
+                    break;
+                case 'scissor':
+                    aiChoice = randomNr ? 'rock' : 'spock'
+                    break;
+                case 'lizard':
+                    aiChoice = randomNr ? 'rock' : 'scissor'
+                    break;
+                case 'spock':
+                    aiChoice = randomNr ? 'paper' : 'lizard'
+                    break;
+            }
+
+            aiSymbol.className = 'far fa-hand-' + aiChoice
+        }).catch((reason) => {
+            console.error(reason)
+        })
+    });
 };
