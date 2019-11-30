@@ -220,7 +220,7 @@ window.onload = function () {
             'rock': 'paper covers rock',
             'spock': 'paper disproves spock',
         },
-        'scissor': {
+        'scissors': {
             'paper': 'scissors cuts paper',
             'lizard': 'scissors decapitates lizard',
         },
@@ -249,8 +249,14 @@ window.onload = function () {
         return beatTexts[randomNr]
     }
 
-    function makeVictoryText({prediction, aiChoice}) { 
-        return (beatsNarration[aiChoice][prediction] || 'AI') + ': ' + getRandomBeatText();
+    function makeVictoryText({prediction, aiChoice}) {
+        let narration
+        try {
+            narration = beatsNarration[aiChoice][prediction]
+        } catch(e) {
+            narration = 'AI'
+        }
+        return narration + ': ' + getRandomBeatText();
     }
 
     goButton.addEventListener('click', () => {
