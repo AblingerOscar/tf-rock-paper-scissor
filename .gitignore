@@ -1,6 +1,11 @@
+# ignore jupyter models
 *.h5
 
-tensorflow/debug_output/*
+# ignore training images
+jupyter/volume/dataset
+
+# ignore debug images from the predict API
+tensorflow/debug_output
 
 # Created by https://www.gitignore.io/api/jupyternotebooks,python,vim,emacs,code,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=jupyternotebooks,python,vim,emacs,code,visualstudiocode

@@ -1,20 +1,22 @@
 version: '3'
 services:
   jupyter:
-    build: .
+    build: jupyter/
     ports:
       - "8888:8888"
       - "5000:5000"
     volumes:
-      - ./jupyter:/tf/jupyter
+      - ./jupyter/volume:/tf/jupyter
   api:
     build: tensorflow/
     volumes:
-      - ./jupyter:/tf
+      - ./jupyter/volume:/tf
       - ./tensorflow:/app
   web:
     build: dashboard/
-    depends_on: 
+    volumes:
+      - ./dashboard/public:/usr/share/nginx/html
+    depends_on:
       - api
     ports:
       - "80:80"
