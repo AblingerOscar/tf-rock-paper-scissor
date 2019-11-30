@@ -34,3 +34,41 @@ progress {
 .canvas {
     margin-top: 68px;
 }
+
+.is-fullpage {
+    height: 100vh;
+
+    padding-top: 5rem;
+}
+
+.button-container {
+    display: flex;
+}
+
+.button-container .button {
+    flex: 1;
+    margin: .3rem;
+}
+
+.no-side-margins {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.flex-horizontally-centered {
+    justify-content: center;
+}
+
+.flex-centered {
+    font-size: 8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rpc-ai-field {
+    width: 100%;
+    height: 100%;
+}
