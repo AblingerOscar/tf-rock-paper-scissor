@@ -11,11 +11,12 @@ services:
     build: tensorflow/
     volumes:
       - ./jupyter/volume:/tf
+      - ./tensorflow:/app
   web:
     build: dashboard/
     volumes:
       - ./dashboard/public:/usr/share/nginx/html
-    depends_on: 
+    depends_on:
       - api
     ports:
       - "80:80"
