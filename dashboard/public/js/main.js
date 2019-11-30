@@ -62,7 +62,18 @@ window.onload = function () {
 
     function processButton(button, route) {
         button.classList.add('is-loading');
-        return sendPostWithImage(button, route);
+
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                button.classList.remove('is-loading')
+                resolve({
+                    paper: 0.9628594517707825,
+                    rock: 0.09970790892839432,
+                    scissors: 0.00016899642650969326
+                })
+            }, 3000)
+        })
+        //return sendPostWithImage(button, route);
     };
 
     function sendPostWithImage(button, route) {
@@ -137,45 +148,65 @@ window.onload = function () {
 
 
     /* === The game === */
+    function countDown() {
+        waitOneSecond = () => new Promise((resolve) => setTimeout(resolve, 1000))
+
+        //set countdown to 3
+        aiSymbol.dataset.status = 'count-down'
+        aiSymbol.className = 'ai-symbol far fa-hand-stone'
+        return waitOneSecond().then(() => {
+            //set countdown to 2
+            return waitOneSecond()
+        }).then(() => {
+            //set countdown to 1
+            return waitOneSecond()
+        }).then(() => {
+            //set countdown to 0
+        })
+    }
+
     goButton.addEventListener('click', () => {
-        processSnapButton();
-        processButton(goButton, serverAddress + '/api/predict').then((predictionScores) => {            
-            const predictionKeys = Object.keys(predictionScores);
-            let max = {key:'', score:0}
+        countDown().then(() => {
+            processSnapButton();
+            processButton(goButton, serverAddress + '/api/predict').then((predictionScores) => {            
+                const predictionKeys = Object.keys(predictionScores);
+                let max = {key:'', score:0}
 
-            predictionKeys.forEach(key => {
-                if (predictionScores[key] >= max.score) {
-                    max = {
-                        key, score: predictionScores[key]
+                predictionKeys.forEach(key => {
+                    if (predictionScores[key] >= max.score) {
+                        max = {
+                            key, score: predictionScores[key]
+                        }
                     }
+                });
+
+                let prediction = max.key
+                let randomNr = Math.floor((Math.random() * 2)) == 0;
+                let aiChoice = 'rock'
+
+                switch (prediction) {
+                    case 'rock':
+                        aiChoice = randomNr ? 'paper' : 'spock'
+                        break;
+                    case 'paper':
+                        aiChoice = randomNr ? 'scissors' : 'lizard'
+                        break;
+                    case 'scissor':
+                        aiChoice = randomNr ? 'rock' : 'spock'
+                        break;
+                    case 'lizard':
+                        aiChoice = randomNr ? 'rock' : 'scissor'
+                        break;
+                    case 'spock':
+                        aiChoice = randomNr ? 'paper' : 'lizard'
+                        break;
                 }
-            });
 
-            let prediction = max.key
-            let randomNr = Math.floor((Math.random() * 2)) == 0;
-            let aiChoice = 'rock'
-
-            switch (prediction) {
-                case 'rock':
-                    aiChoice = randomNr ? 'paper' : 'spock'
-                    break;
-                case 'paper':
-                    aiChoice = randomNr ? 'scissors' : 'lizard'
-                    break;
-                case 'scissor':
-                    aiChoice = randomNr ? 'rock' : 'spock'
-                    break;
-                case 'lizard':
-                    aiChoice = randomNr ? 'rock' : 'scissor'
-                    break;
-                case 'spock':
-                    aiChoice = randomNr ? 'paper' : 'lizard'
-                    break;
-            }
-
-            aiSymbol.className = 'far fa-hand-' + aiChoice
-        }).catch((reason) => {
-            console.error(reason)
+                aiSymbol.dataset.status = 'done'
+                aiSymbol.className = 'ai-symbol far fa-hand-' + aiChoice
+            }).catch((reason) => {
+                console.error(reason)
+            })
         })
     });
 };
