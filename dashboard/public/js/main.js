@@ -63,18 +63,7 @@ window.onload = function () {
 
     function processButton(button, route) {
         button.classList.add('is-loading');
-
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                button.classList.remove('is-loading')
-                resolve({
-                    paper: 0.9628594517707825,
-                    rock: 0.09970790892839432,
-                    scissors: 0.00016899642650969326
-                })
-            }, 3000)
-        })
-        //return sendPostWithImage(button, route);
+        return sendPostWithImage(button, route);
     };
 
     function sendPostWithImage(button, route) {
@@ -264,7 +253,7 @@ window.onload = function () {
             processSnapButton();
             processButton(goButton, serverAddress + '/api/predict').then((predictionScores) => {
                 let {prediction, aiChoice} = makeAiChoice(predictionScores)
-                
+
                 victoryLabel.textContent = makeVictoryText({prediction, aiChoice})
                 aiSymbol.dataset.status = 'done'
                 aiSymbol.className = 'ai-symbol far fa-hand-' + aiChoice

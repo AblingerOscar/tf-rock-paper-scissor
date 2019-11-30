@@ -54,11 +54,11 @@ def predict():
 
     response = {
         'prediction': {
-            '01_rock': prediction[0][0],
-            '02_paper': prediction[0][1],
-            '03_scissors': prediction[0][2],
-            '04_lizard': prediction[0][3],
-            '05_spock': prediction[0][4]
+            'rock': prediction[0][0],
+            'paper': prediction[0][1],
+            'scissors': prediction[0][2],
+            'lizard': prediction[0][3],
+            'spock': prediction[0][4]
         }
     }
     return jsonify(response)
