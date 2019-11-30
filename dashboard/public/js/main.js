@@ -174,43 +174,92 @@ window.onload = function () {
         })
     }
 
+    function makeAiChoice(predictionScores) {
+        const predictionKeys = Object.keys(predictionScores);
+        let max = {key:'', score:0}
+
+        predictionKeys.forEach(key => {
+            if (predictionScores[key] >= max.score) {
+                max = {
+                    key, score: predictionScores[key]
+                }
+            }
+        });
+
+        let prediction = max.key
+        let randomBool = Math.floor((Math.random() * 2)) == 0;
+        let aiChoice = 'rock'
+
+        switch (prediction) {
+            case 'rock':
+                aiChoice = randomBool ? 'paper' : 'spock'
+                break;
+            case 'paper':
+                aiChoice = randomBool ? 'scissors' : 'lizard'
+                break;
+            case 'scissor':
+                aiChoice = randomBool ? 'rock' : 'spock'
+                break;
+            case 'lizard':
+                aiChoice = randomBool ? 'rock' : 'scissor'
+                break;
+            case 'spock':
+                aiChoice = randomBool ? 'paper' : 'lizard'
+                break;
+        }
+
+        return {prediction, aiChoice}
+    }
+
+    const beatsNarration = {
+        'rock': {
+            'scissor': 'rock crushes scissors',
+            'lizard': 'rock crushes lizard',
+        },
+        'paper': {
+            'rock': 'paper covers rock',
+            'spock': 'paper disproves spock',
+        },
+        'scissor': {
+            'paper': 'scissors cuts paper',
+            'lizard': 'scissors decapitates lizard',
+        },
+        'lizard': {
+            'paper': 'lizard eats paper',
+            'spock': 'lizard poisons spock',
+        },
+        'spock': {
+            'rock': 'spock vaporizes rock',
+            'scissor': 'spock smashes scissors',
+        },
+    }
+
+    const beatTexts = [
+        'I won!',
+        'You lost!',
+        'Were you even trying?',
+        'Lol once again: I win!',
+        ':shrug:',
+        'That was easy!',
+        'I saw that coming from a mile away!'
+    ]
+
+    function getRandomBeatText() {
+        let randomNr = Math.floor((Math.random() * beatTexts.length));
+        return beatTexts[randomNr]
+    }
+
+    function makeVictoryText({prediction, aiChoice}) { 
+        return (beatsNarration[aiChoice][prediction] || 'AI') + ': ' + getRandomBeatText();
+    }
+
     goButton.addEventListener('click', () => {
         countDown().then(() => {
             processSnapButton();
-            processButton(goButton, serverAddress + '/api/predict').then((predictionScores) => {            
-                const predictionKeys = Object.keys(predictionScores);
-                let max = {key:'', score:0}
-
-                predictionKeys.forEach(key => {
-                    if (predictionScores[key] >= max.score) {
-                        max = {
-                            key, score: predictionScores[key]
-                        }
-                    }
-                });
-
-                let prediction = max.key
-                let randomNr = Math.floor((Math.random() * 2)) == 0;
-                let aiChoice = 'rock'
-
-                switch (prediction) {
-                    case 'rock':
-                        aiChoice = randomNr ? 'paper' : 'spock'
-                        break;
-                    case 'paper':
-                        aiChoice = randomNr ? 'scissors' : 'lizard'
-                        break;
-                    case 'scissor':
-                        aiChoice = randomNr ? 'rock' : 'spock'
-                        break;
-                    case 'lizard':
-                        aiChoice = randomNr ? 'rock' : 'scissor'
-                        break;
-                    case 'spock':
-                        aiChoice = randomNr ? 'paper' : 'lizard'
-                        break;
-                }
-
+            processButton(goButton, serverAddress + '/api/predict').then((predictionScores) => {
+                let {prediction, aiChoice} = makeAiChoice(predictionScores)
+                
+                victoryLabel.textContent = makeVictoryText({prediction, aiChoice})
                 aiSymbol.dataset.status = 'done'
                 aiSymbol.className = 'ai-symbol far fa-hand-' + aiChoice
             }).catch((reason) => {
