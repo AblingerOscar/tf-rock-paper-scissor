@@ -28,7 +28,7 @@ def get_model():
 def preprocess_image(image, target_size):
     image = image.resize(target_size)
     image = image.convert("L").convert("RGB")
-    threshold = 80
+    threshold = 140
     image = image.point(lambda p: p > threshold and 255)
 
     date_string = datetime.datetime.now().strftime("%Y-%m-%dT%H+%M+%SZ")
