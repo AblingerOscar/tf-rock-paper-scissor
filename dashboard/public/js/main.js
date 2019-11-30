@@ -11,6 +11,7 @@ window.onload = function () {
     const goButton = document.getElementById('go-button');
     const labels = document.getElementById('labels');
     const aiSymbol = this.document.getElementById('ai-symbol');
+    const counter = this.document.getElementById('countdown');
     const victoryLabel = this.document.getElementById('victory-text');
 
     const constraints = {
@@ -149,19 +150,27 @@ window.onload = function () {
 
     /* === The game === */
     function countDown() {
-        waitOneSecond = () => new Promise((resolve) => setTimeout(resolve, 1000))
+        waitOneSecond = () => new Promise((resolve) => setTimeout(resolve.bind(null), 1000))
 
-        //set countdown to 3
+        counter.dataset.status = 'counting'
+        counter.textContent = "3"
         aiSymbol.dataset.status = 'count-down'
         aiSymbol.className = 'ai-symbol far fa-hand-rock'
         return waitOneSecond().then(() => {
-            //set countdown to 2
+            console.log('setting to 2')
+            counter.offsetHeight //trigger reflow
+            counter.textContent = "2"
             return waitOneSecond()
         }).then(() => {
-            //set countdown to 1
+            console.log('setting to 1')
+            counter.offsetHeight //trigger reflow
+            counter.textContent = "1"
             return waitOneSecond()
         }).then(() => {
-            //set countdown to 0
+            counter.offsetHeight //trigger reflow
+            counter.textContent = "0"
+            console.log('setting to 0')
+            counter.dataset.status = 'done'
         })
     }
 
