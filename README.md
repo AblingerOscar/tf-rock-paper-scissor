@@ -15,7 +15,7 @@ The notebook also has a few graphs to analyze the model.
 The website on the other hand gives a nice interface over
 which you can do one of two things:
 
-- Play a totally fair game of _"rock paper scissors lizard
+- Play a totally fair game of "rock paper scissors lizard
 spock" against the AI
 
 ![An image of a player loosing against the AI](./doc-images/game.png)
@@ -40,9 +40,12 @@ will automatically download it from the github repository
 [akshaybahadur21/Emojinator](https://github.com/akshaybahadur21/Emojinator/tree/master/Rock_Paper_Scissor_Lizard_Spock/RPS_data).
 
 Simply execute `sh get_training_data.sh` and wait for it to be done.
-Sadly, we found that downloading them parallely (using
+Sadly, we found that downloading them in parallel (using
 `curl --parallel`) results in many of them being corrupted, so
 this step takes a very long time.
+
+Alternatively, you can navigate to the repository and download the images from
+there directly.
 
 ### Step 2: Starting the docker containers
 
@@ -70,11 +73,13 @@ you re-start it.
 To connect to the jupyter notebook, simply visit
 `localhost:8888` with any browser and use the password
 `aktmodel` to access the notebook.
+If you do not want to execute the jupyter
+notebook yourself you can also navigate to the
+[notebook directly](./jupyter/volume/Train.ipynb).
 
 Similarly, you can access the website at `localhost:80`.
 If you haven't yet created a model with the jupyter notebook
-(using the downloaded images), it will not be able to predict
-the images, however.
+(using the downloaded images), it will use the model we trained.
 
 Here are the results for our model:
 
