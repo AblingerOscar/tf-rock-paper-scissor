@@ -26,6 +26,21 @@ spock" against the AI
 
 ## How to start
 
+In order to use this repository, you need `docker` and
+`docker-compose` installed and running on your device, as well
+as having access to a linux shell.
+
+### Step 1: Downloading the images
+
+Since the images would've been too big to put into this
+repository, we instead opted to create a download script that
+will automatically download it from the github repository
+[akshaybahadur21/Emojinator](https://github.com/akshaybahadur21/Emojinator/tree/master/Rock_Paper_Scissor_Lizard_Spock/RPS_data).
+
+Simply execute `sh get_training_data.sh` and wait for it to be done.
+
+### Step 2: Starting the docker containers
+
 If you've docker and docker-compose installed, simply run
 
 ```sh
@@ -40,14 +55,18 @@ This will start all three containers:
 - The website
 - The api
 
-To connect to the jupyter notebook, simply visit
-`localhost:8888` and use the password `aktmodel`.
-
 All of the data inside of the `jupyter/volume` folder is shared
 with the outside, but anything else stays
 inside of the docker container and as such will disappear once
 you re-start it.
 
-You can acces the website at `localhost:80`.
-If you haven't yet created a model with the jupyter notebook,
- it will not be able to predict the images, however.
+### Step 3: Look at the results
+
+To connect to the jupyter notebook, simply visit
+`localhost:8888` with any browser and use the password
+`aktmodel` to access the notebook.
+
+Similarly, you can access the website at `localhost:80`.
+If you haven't yet created a model with the jupyter notebook
+(using the downloaded images), it will not be able to predict
+the images, however.
